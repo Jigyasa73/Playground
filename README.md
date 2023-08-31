@@ -1,4 +1,4 @@
-# Project Title
+# Playground
 The provided Solidity code defines a smart contract called "PlayGround" that represents a simple token-based game ecosystem.  This token is intended to be used as a digital asset for in-game transactions and interactions.
 
 ## Description
