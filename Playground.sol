@@ -1,5 +1,6 @@
 pragma solidity 0.8.18;
 
+//defining a contract Playground
 contract PlayGround {
     string public name = "gameCoin";
     string public symbol = "symbol";
@@ -9,9 +10,7 @@ contract PlayGround {
 
     uint public totalSupply;
     mapping(address => uint256) public balances;
-    mapping(address => bool) public canPlay;
-
-    event Transfer(address indexed from, address indexed to, uint256 value);
+    mapping(address => bool) public canPlay; 
     event Mint(address indexed to, uint256 value);
     event Burn(address indexed from, uint256 value);
 
@@ -21,27 +20,17 @@ contract PlayGround {
         canPlay[msg.sender] = true;
     }
 
-    function transfer(address to, uint256 value) external returns (bool) {
-        require(to != address(0), "Invalid recipient address");
-        require(value > 0, "Value must be greater than 0");
-        require(balances[msg.sender] >= value, "Insufficient balance");
-
-        balances[msg.sender] -= value;
-        balances[to] += value;
-
-        emit Transfer(msg.sender, to, value);
-        return true;
-    }
+  
 
     function mint(address to, uint256 value) external {
         require(value > 0, "Value must be greater than 0");
-        require(totalSupply + value <= maxSupply, "Exceeds maximum supply");
+        require(totalSupply + value > maxSupply, "Exceeds maximum supply");
 
         totalSupply += value;
         balances[to] += value;
 
         emit Mint(to, value);
-        emit Transfer(address(0), to, value);
+
     }
 
     function burn(uint256 value) external {
@@ -52,7 +41,7 @@ contract PlayGround {
         balances[msg.sender] -= value;
 
         emit Burn(msg.sender, value);
-        emit Transfer(msg.sender, address(0), value);
+        
     }
 
     function playGame() external {
@@ -61,9 +50,6 @@ contract PlayGround {
 
         balances[msg.sender] -= gameCost;
 
-        emit Transfer(msg.sender, address(0), gameCost);
     }
 
 }
-
-
